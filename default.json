@@ -1,0 +1,78 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>konflux-ci/mintmaker-presets:cve-automerge-all",
+    "config:recommended",
+    "group:allDigest",
+    "group:recommended",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "prHourlyLimit": 1,
+  "prConcurrentLimit": 10,
+  "osvVulnerabilityAlerts": true,
+  "platformAutomerge": true,
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "description": "Automerge Tekton updates",
+      "matchManagers": ["tekton"],
+      "automerge": true,
+      "automergeType": "pr",
+      "ignoreTests": true,
+      "prPriority": 10
+    },
+    {
+      "description": "Automerge updates to uv",
+      "matchPackageNames": ["ghcr.io/astral-sh/uv"],
+      "datasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "description": "Group and automerge digest updates for Ubi images",
+      "matchPackageNames": [
+        "registry.access.redhat.com/ubi*{/,}**",
+        "registry.redhat.io/ubi*{/,}**"
+      ],
+      "datasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "groupName": "ubi-digest-updates",
+      "automerge": true,
+      "schedule": ["* * 1,15 * *"]
+    },
+    {
+      "description": "Group all @types packages",
+      "matchPackageNames": ["@types/**"],
+      "groupName": "types-packages"
+    },
+    {
+      "description": "Group webpack-related packages",
+      "matchPackageNames": [
+        "webpack",
+        "webpack-dev-server",
+        "css-loader",
+        "terser-webpack-plugin",
+        "copy-webpack-plugin",
+        "css-minimizer-webpack-plugin",
+        "dotenv-webpack",
+        "serialize-javascript"
+      ],
+      "groupName": "webpack-ecosystem"
+    },
+    {
+      "description": "Limit major updates - keep as dependency dashboard only",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
+  ],
+  "tekton": {
+    "includePaths": ["pipelines/**"]
+  },
+  "pin": {
+    "automerge": true
+  },
+  "pinDigest": {
+    "automerge": true
+  }
+}
