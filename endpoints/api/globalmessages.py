@@ -11,6 +11,7 @@ from auth.permissions import SuperUserPermission
 from endpoints.api import (
     ApiResource,
     allow_if_superuser,
+    log_action,
     nickname,
     require_fresh_login,
     require_scope,
@@ -124,6 +125,15 @@ class GlobalUserMessages(ApiResource):
             )
             if message is None:
                 abort(400)
+            log_action(
+                "global_message_create",
+                None,
+                {
+                    "severity": message_req["severity"],
+                    "media_type": message_req["media_type"],
+                    "content": message_req["content"],
+                },
+            )
             return make_response("", 201)
         abort(403)
 
@@ -145,6 +155,7 @@ class GlobalUserMessage(ApiResource):
         """
         if allow_if_superuser():
             model.delete_message(uuid)
+            log_action("global_message_delete", None, {"uuid": uuid})
             return make_response("", 204)
 
         abort(403)

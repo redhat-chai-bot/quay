@@ -622,6 +622,9 @@ def initialize_database():
     LogEntryKind.create(name="create_oauth_api_token")
     LogEntryKind.create(name="revoke_oauth_api_token")
 
+    LogEntryKind.create(name="global_message_create")
+    LogEntryKind.create(name="global_message_delete")
+
     ImageStorageLocation.create(name="local_eu")
     ImageStorageLocation.create(name="local_us")
 
