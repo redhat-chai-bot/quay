@@ -35,6 +35,17 @@ class TestGlobalMessageAuditLogging:
             }
         )
 
+        # Required for url_for to work outside a request context in
+        # Werkzeug >= 3.0.  AppContext caches the url_adapter at push
+        # time, so we must also refresh it after setting SERVER_NAME.
+        if not app.config.get("SERVER_NAME"):
+            from flask.globals import _cv_app
+
+            app.config["SERVER_NAME"] = "localhost"
+            ctx = _cv_app.get(None)
+            if ctx is not None:
+                ctx.url_adapter = app.create_url_adapter(None)
+
     def test_create_global_message_logs_action(self, app):
         """
         Test that creating a global message logs the global_message_create action.

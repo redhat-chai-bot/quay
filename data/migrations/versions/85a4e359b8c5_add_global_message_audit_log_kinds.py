@@ -1,14 +1,16 @@
 """add global message audit log kinds
 
-Revision ID: 5f952a301f5d
+Revision ID: 85a4e359b8c5
 Revises: b30800b1d271
-Create Date: 2026-07-13 15:30:00.000000
+Create Date: 2026-07-13 15:36:05.430608
 
 """
 
 # revision identifiers, used by Alembic.
-revision = "5f952a301f5d"
+revision = "85a4e359b8c5"
 down_revision = "b30800b1d271"
+
+import sqlalchemy as sa
 
 
 def upgrade(op, tables, tester):
