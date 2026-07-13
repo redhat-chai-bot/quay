@@ -5,7 +5,7 @@ test.describe(
   'Fresh Login - Database auth password modal',
   {tag: ['@auth', '@auth:Database']},
   () => {
-    test('shows password modal (not redirect) on fresh_login_required', async ({
+    test('shows password modal (not redirect) on fresh_login_required', {tag: '@superuser'}, async ({
       superuserPage: page,
     }) => {
       await page.route('**/api/v1/superuser/logs*', (route) =>
@@ -33,7 +33,7 @@ test.describe(
       expect(page.url()).not.toMatch(/\/signin/);
     });
 
-    test('cancel dismisses the fresh-login modal', async ({
+    test('cancel dismisses the fresh-login modal', {tag: '@superuser'}, async ({
       superuserPage: page,
     }) => {
       await page.route('**/api/v1/superuser/logs*', (route) =>
@@ -56,7 +56,7 @@ test.describe(
       await expect(page.getByText('Please Verify').first()).not.toBeVisible();
     });
 
-    test('successful password verification dismisses modal and retries', async ({
+    test('successful password verification dismisses modal and retries', {tag: '@superuser'}, async ({
       superuserPage: page,
     }) => {
       let callCount = 0;

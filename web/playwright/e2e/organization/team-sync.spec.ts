@@ -4,7 +4,7 @@ test.describe(
   'OIDC Team Sync',
   {tag: ['@organization', '@auth:OIDC', '@feature:TEAM_SYNCING']},
   () => {
-    test('team sync lifecycle: validate input, enable, verify config, disable', async ({
+    test('team sync lifecycle: validate input, enable, verify config, disable', {tag: '@superuser'}, async ({
       superuserPage: page,
       superuserApi: api,
     }) => {

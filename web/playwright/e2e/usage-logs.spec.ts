@@ -135,7 +135,7 @@ test.describe('Usage Logs', {tag: ['@logs']}, () => {
       expect(body).toContain('exported logs information can be found at');
     });
 
-    test('delivers callback for repository logs export', async ({
+    test('delivers callback for repository logs export', {tag: '@webhook'}, async ({
       authenticatedPage,
       api,
       webhook,
@@ -372,7 +372,7 @@ test.describe('Usage Logs', {tag: ['@logs']}, () => {
   test.describe('chart log kind mapping', {tag: ['@PROJQUAY-11079']}, () => {
     test(
       'quota log kinds appear in the chart legend',
-      {tag: ['@feature:QUOTA_MANAGEMENT', '@feature:EDIT_QUOTA']},
+      {tag: ['@feature:QUOTA_MANAGEMENT', '@feature:EDIT_QUOTA', '@superuser']},
       async ({superuserPage, superuserApi}) => {
         const org = await superuserApi.organization('chartquota');
         // org_create_quota

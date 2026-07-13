@@ -352,7 +352,7 @@ test.describe(
       await expect(makeImmutableAction).toHaveClass(/pf-m-disabled/);
     });
 
-    test('superuser can remove immutability from a tag', async ({
+    test('superuser can remove immutability from a tag', {tag: '@superuser'}, async ({
       superuserPage,
       superuserApi,
     }) => {

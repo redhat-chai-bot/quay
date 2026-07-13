@@ -4,7 +4,7 @@ test.describe(
   'Fresh Login - OIDC vs Database behavior',
   {tag: ['@auth', '@auth:OIDC']},
   () => {
-    test('OIDC users redirect to signin on fresh_login_required (not password modal)', async ({
+    test('OIDC users redirect to signin on fresh_login_required (not password modal)', {tag: '@superuser'}, async ({
       superuserPage: page,
       quayConfig,
     }) => {
@@ -38,7 +38,7 @@ test.describe(
       await expect(page.getByText('Current Password')).not.toBeVisible();
     });
 
-    test('OIDC redirect preserves query parameters', async ({
+    test('OIDC redirect preserves query parameters', {tag: '@superuser'}, async ({
       superuserPage: page,
       quayConfig,
     }) => {

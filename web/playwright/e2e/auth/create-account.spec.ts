@@ -121,7 +121,7 @@ test.describe('Create Account Page', {tag: ['@auth']}, () => {
 
   test(
     'creates account with valid inputs and redirects to organization',
-    {tag: '@critical'},
+    {tag: ['@critical', '@superuser']},
     async ({createAccountPage, cleanupUser, quayConfig}) => {
       const username = uniqueName('newuser');
       const email = `${username}@example.com`;
@@ -179,7 +179,7 @@ test.describe('Create Account Page', {tag: ['@auth']}, () => {
     },
   );
 
-  test('shows error for existing username', async ({
+  test('shows error for existing username', {tag: '@superuser'}, async ({
     createAccountPage,
     superuserRequest,
     cleanupUser,
@@ -245,7 +245,7 @@ test.describe('Create Account Page', {tag: ['@auth']}, () => {
 
   test(
     'shows verification message when email verification required',
-    {tag: '@feature:MAILING'},
+    {tag: ['@feature:MAILING', '@superuser']},
     async ({createAccountPage, cleanupUser}) => {
       // This test only runs when FEATURE_MAILING is enabled
       // When enabled, new accounts require email verification
@@ -309,7 +309,7 @@ test.describe('Create Account Page', {tag: ['@auth']}, () => {
 
   test(
     'redirects to updateuser when user has prompts',
-    {tag: '@feature:QUOTA_MANAGEMENT'},
+    {tag: ['@feature:QUOTA_MANAGEMENT', '@superuser']},
     async ({createAccountPage, cleanupUser, quayConfig}) => {
       // This test only runs when FEATURE_QUOTA_MANAGEMENT is enabled
       // When enabled, new users may have prompts (enter_name, enter_company)

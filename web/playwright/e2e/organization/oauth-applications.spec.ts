@@ -76,7 +76,7 @@ test.describe('OAuth Applications', {tag: ['@organization']}, () => {
     ).toBeVisible();
   });
 
-  test('non-admin users cannot see OAuth Applications tab', async ({
+  test('non-admin users cannot see OAuth Applications tab', {tag: '@superuser'}, async ({
     authenticatedPage: page,
     superuserApi,
   }) => {

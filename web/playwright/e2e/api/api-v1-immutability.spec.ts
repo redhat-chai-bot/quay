@@ -13,7 +13,7 @@ test.describe(
   {tag: ['@api', '@auth:Database', '@feature:IMMUTABLE_TAGS']},
   () => {
     test.describe('Organization immutability policies', () => {
-      test('create org immutability policy', async ({
+      test('create org immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {
@@ -28,7 +28,7 @@ test.describe(
         expect(body.uuid).toBeTruthy();
       });
 
-      test('get org immutability policy', async ({
+      test('get org immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {
@@ -46,7 +46,7 @@ test.describe(
         expect(body.uuid).toBe(policy.uuid);
       });
 
-      test('update org immutability policy', async ({
+      test('update org immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {
@@ -71,7 +71,7 @@ test.describe(
         expect(updated.tagPatternMatches).toBe(true);
       });
 
-      test('delete org immutability policy', async ({
+      test('delete org immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {
@@ -91,7 +91,7 @@ test.describe(
     });
 
     test.describe('Repository immutability policies', () => {
-      test('create repo immutability policy', async ({
+      test('create repo immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {
@@ -107,7 +107,7 @@ test.describe(
         expect(body.uuid).toBeTruthy();
       });
 
-      test('get repo immutability policy', async ({
+      test('get repo immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {
@@ -127,7 +127,7 @@ test.describe(
         expect(body.uuid).toBe(policy.uuid);
       });
 
-      test('update repo immutability policy', async ({
+      test('update repo immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {
@@ -154,7 +154,7 @@ test.describe(
         expect(updated.tagPatternMatches).toBe(true);
       });
 
-      test('delete repo immutability policy', async ({
+      test('delete repo immutability policy', {tag: '@superuser'}, async ({
         adminClient,
         superuserApi,
       }) => {

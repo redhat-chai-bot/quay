@@ -380,7 +380,7 @@ test.describe(
       'Superuser Features',
       {tag: '@feature:SUPERUSERS_FULL_ACCESS'},
       () => {
-        test('displays user status labels', async ({superuserPage}) => {
+        test('displays user status labels', {tag: '@superuser'}, async ({superuserPage}) => {
           await superuserPage.goto('/organization');
 
           // Wait for table to load
@@ -434,7 +434,7 @@ test.describe(
           ).not.toBeVisible();
         });
 
-        test('shows user orgs when superuser API fails', async ({
+        test('shows user orgs when superuser API fails', {tag: '@superuser'}, async ({
           superuserPage,
           superuserApi,
         }) => {
@@ -480,7 +480,7 @@ test.describe(
           ).toBeVisible();
         });
 
-        test('shows combined orgs and no duplicates', async ({
+        test('shows combined orgs and no duplicates', {tag: '@superuser'}, async ({
           superuserPage,
           superuserApi,
         }) => {
@@ -516,7 +516,7 @@ test.describe(
       'Read-only Superuser',
       {tag: '@feature:SUPERUSERS_FULL_ACCESS'},
       () => {
-        test('can see orgs but cannot perform actions', async ({
+        test('can see orgs but cannot perform actions', {tag: '@superuser'}, async ({
           readonlyPage,
           superuserApi,
         }) => {
@@ -591,7 +591,7 @@ test.describe(
       () => {
         test(
           'superuser displays quota consumed column',
-          {tag: '@PROJQUAY-9641'},
+          {tag: ['@PROJQUAY-9641', '@superuser']},
           async ({superuserPage, superuserApi}) => {
             // Create org with quota
             const org = await superuserApi.organization('quotatest');
@@ -618,7 +618,7 @@ test.describe(
 
         test(
           'regular user sees their own namespace quota',
-          {tag: '@PROJQUAY-9886'},
+          {tag: ['@PROJQUAY-9886', '@superuser']},
           async ({authenticatedPage, superuserApi}) => {
             // Superuser creates quota for the test user's namespace (uses superuser API for user namespaces)
             await superuserApi.userQuota(TEST_USERS.user.username, 10737418240);
@@ -648,7 +648,7 @@ test.describe(
 
         test(
           'registry calculation error shows correct modal title',
-          {tag: '@PROJQUAY-9874'},
+          {tag: ['@PROJQUAY-9874', '@superuser']},
           async ({superuserPage}) => {
             // Mock registry size endpoints
             await superuserPage.route(
@@ -703,7 +703,7 @@ test.describe(
 
         test(
           'displays "0.00 KiB" for zero registry size',
-          {tag: '@PROJQUAY-9860'},
+          {tag: ['@PROJQUAY-9860', '@superuser']},
           async ({superuserPage}) => {
             // Mock registry size endpoint with 0 bytes
             await superuserPage.route(

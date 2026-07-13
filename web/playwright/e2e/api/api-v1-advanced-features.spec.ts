@@ -19,7 +19,7 @@ test.describe(
   'Repository Mirror',
   {tag: ['@api', '@feature:REPO_MIRROR']},
   () => {
-    test('CRUD mirror config, sync-now, sync-cancel', async ({
+    test('CRUD mirror config, sync-now, sync-cancel', {tag: '@superuser'}, async ({
       superuserApi,
     }) => {
       const org = await superuserApi.organization('mirror');
@@ -78,7 +78,7 @@ test.describe(
 // Proxy Cache
 // ---------------------------------------------------------------------------
 test.describe('Proxy Cache', {tag: ['@api', '@feature:PROXY_CACHE']}, () => {
-  test('validate, create, get, and delete proxy cache config', async ({
+  test('validate, create, get, and delete proxy cache config', {tag: '@superuser'}, async ({
     superuserApi,
     adminClient,
   }) => {
@@ -123,7 +123,7 @@ test.describe(
   'Organization Quotas',
   {tag: ['@api', '@feature:QUOTA_MANAGEMENT']},
   () => {
-    test('CRUD organization quota', async ({superuserApi}) => {
+    test('CRUD organization quota', {tag: '@superuser'}, async ({superuserApi}) => {
       const org = await superuserApi.organization('quota');
       const quota = await superuserApi.quota(org.name, 1024000000);
 
@@ -144,7 +144,7 @@ test.describe(
       expect(updated[0].limit_bytes).toBe(8024000000);
     });
 
-    test('CRUD organization quota limits', async ({superuserApi}) => {
+    test('CRUD organization quota limits', {tag: '@superuser'}, async ({superuserApi}) => {
       const org = await superuserApi.organization('quotalim');
       const quota = await superuserApi.quota(org.name, 1024000000);
 
@@ -168,7 +168,7 @@ test.describe(
       expect(afterDelete[0].limits.length).toBe(0);
     });
 
-    test('superuser CRUD organization quota', async ({
+    test('superuser CRUD organization quota', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -211,7 +211,7 @@ test.describe(
       expect(deleteResp.status()).toBe(204);
     });
 
-    test('admin can get quota limits via sub-resource endpoints', async ({
+    test('admin can get quota limits via sub-resource endpoints', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -254,7 +254,7 @@ test.describe(
   'User Quotas',
   {tag: ['@api', '@feature:QUOTA_MANAGEMENT']},
   () => {
-    test('admin can get user quota by ID and list its limits', async ({
+    test('admin can get user quota by ID and list its limits', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
       playwright,
@@ -335,7 +335,7 @@ test.describe(
   'Autoprune - Organization',
   {tag: ['@api', '@feature:AUTO_PRUNE']},
   () => {
-    test('invalid payload returns 400', async ({superuserApi, adminClient}) => {
+    test('invalid payload returns 400', {tag: '@superuser'}, async ({superuserApi, adminClient}) => {
       const org = await superuserApi.organization('aporg');
 
       const resp = await adminClient.post(
@@ -347,7 +347,7 @@ test.describe(
       expect(body.detail).toBe('Invalid method provided');
     });
 
-    test('CRUD autoprune policy for organization', async ({
+    test('CRUD autoprune policy for organization', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -402,7 +402,7 @@ test.describe(
   'Autoprune - Repository',
   {tag: ['@api', '@feature:AUTO_PRUNE']},
   () => {
-    test('invalid payload returns 400', async ({superuserApi, adminClient}) => {
+    test('invalid payload returns 400', {tag: '@superuser'}, async ({superuserApi, adminClient}) => {
       const org = await superuserApi.organization('aprepo');
       const repo = await superuserApi.repository(org.name, 'aprepo');
 
@@ -415,7 +415,7 @@ test.describe(
       expect(body.detail).toBe('Invalid method provided');
     });
 
-    test('CRUD autoprune policy for repository', async ({
+    test('CRUD autoprune policy for repository', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -530,7 +530,7 @@ test.describe(
   'Autoprune - User Namespace Repository',
   {tag: ['@api', '@feature:AUTO_PRUNE']},
   () => {
-    test('invalid payload returns 400', async ({superuserApi, adminClient}) => {
+    test('invalid payload returns 400', {tag: '@superuser'}, async ({superuserApi, adminClient}) => {
       const repo = await superuserApi.repository(
         TEST_USERS.admin.username,
         'apuserrepo',
@@ -545,7 +545,7 @@ test.describe(
       expect(body.detail).toBe('Invalid method provided');
     });
 
-    test('CRUD autoprune policy for user namespace repo', async ({
+    test('CRUD autoprune policy for user namespace repo', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -592,7 +592,7 @@ test.describe(
 // Logs
 // ---------------------------------------------------------------------------
 test.describe('Logs', {tag: ['@api']}, () => {
-  test('get repository logs', async ({superuserApi, adminClient}) => {
+  test('get repository logs', {tag: '@superuser'}, async ({superuserApi, adminClient}) => {
     const org = await superuserApi.organization('logs');
     const repo = await superuserApi.repository(org.name, 'logrepo');
 
@@ -604,7 +604,7 @@ test.describe('Logs', {tag: ['@api']}, () => {
     expect(body.logs).toBeDefined();
   });
 
-  test('get organization logs', async ({superuserApi, adminClient}) => {
+  test('get organization logs', {tag: '@superuser'}, async ({superuserApi, adminClient}) => {
     const org = await superuserApi.organization('logs');
 
     const resp = await adminClient.get(`/api/v1/organization/${org.name}/logs`);
@@ -766,7 +766,7 @@ test.describe('App Tokens Superuser', {tag: ['@api']}, () => {
 // Service Keys
 // ---------------------------------------------------------------------------
 test.describe('Service Keys', {tag: ['@api']}, () => {
-  test('CRUD service key', async ({superuserApi, adminClient}) => {
+  test('CRUD service key', {tag: '@superuser'}, async ({superuserApi, adminClient}) => {
     // Skip when SUPER_USERS feature is disabled
     const probe = await adminClient.get('/api/v1/superuser/keys');
     if (probe.status() === 403 || probe.status() === 404) {
@@ -813,7 +813,7 @@ test.describe(
   'Organization Mirror',
   {tag: ['@api', '@feature:ORG_MIRROR']},
   () => {
-    test('CRUD org mirror config with sync and verify', async ({
+    test('CRUD org mirror config with sync and verify', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {

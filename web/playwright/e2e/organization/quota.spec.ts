@@ -5,7 +5,7 @@ test.describe(
   'Quota Management',
   {tag: ['@organization', '@feature:QUOTA_MANAGEMENT', '@feature:EDIT_QUOTA']},
   () => {
-    test('superuser can configure quota lifecycle: create, update, add limit, update limit, delete limit, delete quota', async ({
+    test('superuser can configure quota lifecycle: create, update, add limit, update limit, delete limit, delete quota', {tag: '@superuser'}, async ({
       superuserPage,
       superuserApi,
     }) => {
@@ -116,7 +116,7 @@ test.describe(
       expect(quotas).toHaveLength(0);
     });
 
-    test('regular user sees read-only quota in organization settings', async ({
+    test('regular user sees read-only quota in organization settings', {tag: '@superuser'}, async ({
       authenticatedPage,
       superuserApi,
       api,
@@ -180,7 +180,7 @@ test.describe(
       ).toBeVisible();
     });
 
-    test('superuser sees no quota alert with instructions in organization settings', async ({
+    test('superuser sees no quota alert with instructions in organization settings', {tag: '@superuser'}, async ({
       superuserPage,
       superuserApi,
     }) => {
@@ -204,7 +204,7 @@ test.describe(
       ).toBeVisible();
     });
 
-    test('superuser sees Configure Quota option in organizations list kebab menu', async ({
+    test('superuser sees Configure Quota option in organizations list kebab menu', {tag: '@superuser'}, async ({
       superuserPage,
       superuserApi,
     }) => {
@@ -224,7 +224,7 @@ test.describe(
       await expect(superuserPage.getByText('Configure Quota')).toBeVisible();
     });
 
-    test('regular user does not see organization options kebab menu', async ({
+    test('regular user does not see organization options kebab menu', {tag: '@superuser'}, async ({
       authenticatedPage,
       superuserApi,
     }) => {
@@ -242,7 +242,7 @@ test.describe(
 
     test(
       'user can view quota with limits in organization Settings tab',
-      {tag: '@PROJQUAY-9785'},
+      {tag: ['@PROJQUAY-9785', '@superuser']},
       async ({authenticatedPage, superuserApi, api}) => {
         // Setup: Create organization (testuser owns it) with quota and limits set by superuser
         const org = await api.organization('userquotaview');

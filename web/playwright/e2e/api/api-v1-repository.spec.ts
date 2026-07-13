@@ -17,7 +17,7 @@ import {pushImage} from '../../utils/container';
 // ---------------------------------------------------------------------------
 
 test.describe('Repository CRUD', {tag: ['@api', '@auth:Database']}, () => {
-  test('create new repository under organization', async ({
+  test('create new repository under organization', {tag: '@superuser'}, async ({
     adminClient,
     superuserApi,
   }) => {
@@ -38,7 +38,7 @@ test.describe('Repository CRUD', {tag: ['@api', '@auth:Database']}, () => {
     expect(body.namespace).toBe(org.name);
   });
 
-  test('create 2nd repository under the same organization', async ({
+  test('create 2nd repository under the same organization', {tag: '@superuser'}, async ({
     adminClient,
     superuserApi,
   }) => {
@@ -69,7 +69,7 @@ test.describe('Repository CRUD', {tag: ['@api', '@auth:Database']}, () => {
     expect(body.namespace).toBe(org.name);
   });
 
-  test('get existing repository', async ({adminClient, superuserApi}) => {
+  test('get existing repository', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('repo');
     const repo = await superuserApi.repository(org.name);
 
@@ -83,7 +83,7 @@ test.describe('Repository CRUD', {tag: ['@api', '@auth:Database']}, () => {
     expect(body.namespace).toBe(org.name);
   });
 
-  test('update repository visibility', async ({adminClient, superuserApi}) => {
+  test('update repository visibility', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('repo');
     const repo = await superuserApi.repository(org.name);
 
@@ -99,7 +99,7 @@ test.describe('Repository CRUD', {tag: ['@api', '@auth:Database']}, () => {
     expect(body.success).toBe(true);
   });
 
-  test('update repository description', async ({adminClient, superuserApi}) => {
+  test('update repository description', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('repo');
     const repo = await superuserApi.repository(org.name);
 
@@ -115,7 +115,7 @@ test.describe('Repository CRUD', {tag: ['@api', '@auth:Database']}, () => {
     expect(body.success).toBe(true);
   });
 
-  test('delete repository', async ({adminClient, superuserApi}) => {
+  test('delete repository', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('repo');
     const repoName = uniqueName('delrepo');
 
@@ -135,7 +135,7 @@ test.describe('Repository CRUD', {tag: ['@api', '@auth:Database']}, () => {
     expect(response.status()).toBe(204);
   });
 
-  test('create repository under user namespace', async ({
+  test('create repository under user namespace', {tag: '@superuser'}, async ({
     adminClient,
     superuserApi,
   }) => {
@@ -168,7 +168,7 @@ test.describe(
   'Repository Tags',
   {tag: ['@api', '@auth:Database', '@container']},
   () => {
-    test('get repository tags', async ({adminClient, superuserApi}) => {
+    test('get repository tags', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
       const org = await superuserApi.organization('tag');
       const repo = await superuserApi.repository(org.name, 'tag', 'public');
 
@@ -192,7 +192,7 @@ test.describe(
       expect(body.tags[0].name).toBe('latest');
     });
 
-    test('delete tag', async ({adminClient, superuserApi}) => {
+    test('delete tag', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
       const org = await superuserApi.organization('tag');
       const repo = await superuserApi.repository(org.name, 'tag', 'public');
 
@@ -210,7 +210,7 @@ test.describe(
       expect(response.status()).toBe(204);
     });
 
-    test('permanently delete (expire) tag', async ({
+    test('permanently delete (expire) tag', {tag: '@superuser'}, async ({
       adminClient,
       superuserApi,
     }) => {
@@ -248,7 +248,7 @@ test.describe(
       expect(response.status()).toBe(200);
     });
 
-    test('get repository details with tags', async ({
+    test('get repository details with tags', {tag: '@superuser'}, async ({
       adminClient,
       superuserApi,
     }) => {
@@ -286,7 +286,7 @@ test.describe(
   'Repository Manifest',
   {tag: ['@api', '@auth:Database', '@container']},
   () => {
-    test('get manifest digest', async ({adminClient, superuserApi}) => {
+    test('get manifest digest', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
       const org = await superuserApi.organization('manifest');
       const repo = await superuserApi.repository(
         org.name,
@@ -331,7 +331,7 @@ test.describe(
   'Manifest Labels CRUD',
   {tag: ['@api', '@auth:Database', '@container']},
   () => {
-    test('add label to manifest', async ({adminClient, superuserApi}) => {
+    test('add label to manifest', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
       const org = await superuserApi.organization('label');
       const repo = await superuserApi.repository(org.name, 'label', 'public');
 
@@ -365,7 +365,7 @@ test.describe(
       expect(body.label.value).toBe('prod');
     });
 
-    test('list labels on manifest', async ({adminClient, superuserApi}) => {
+    test('list labels on manifest', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
       const org = await superuserApi.organization('label');
       const repo = await superuserApi.repository(org.name, 'label', 'public');
 
@@ -409,7 +409,7 @@ test.describe(
       expect(found).toBe(true);
     });
 
-    test('get specific label', async ({adminClient, superuserApi}) => {
+    test('get specific label', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
       const org = await superuserApi.organization('label');
       const repo = await superuserApi.repository(org.name, 'label', 'public');
 
@@ -450,7 +450,7 @@ test.describe(
       expect(body.id).toBe(labelId);
     });
 
-    test('delete label from manifest', async ({adminClient, superuserApi}) => {
+    test('delete label from manifest', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
       const org = await superuserApi.organization('label');
       const repo = await superuserApi.repository(org.name, 'label', 'public');
 
@@ -493,7 +493,7 @@ test.describe(
 // ---------------------------------------------------------------------------
 
 test.describe('Starred Repositories', {tag: ['@api', '@auth:Database']}, () => {
-  test('add star to repository', async ({adminClient, superuserApi}) => {
+  test('add star to repository', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('star');
     const repo = await superuserApi.repository(org.name, 'star', 'public');
 
@@ -511,7 +511,7 @@ test.describe('Starred Repositories', {tag: ['@api', '@auth:Database']}, () => {
     await adminClient.delete(`/api/v1/user/starred/${org.name}/${repo.name}`);
   });
 
-  test('list starred repositories', async ({adminClient, superuserApi}) => {
+  test('list starred repositories', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('star');
     const repo = await superuserApi.repository(org.name, 'star', 'public');
 
@@ -537,7 +537,7 @@ test.describe('Starred Repositories', {tag: ['@api', '@auth:Database']}, () => {
     await adminClient.delete(`/api/v1/user/starred/${org.name}/${repo.name}`);
   });
 
-  test('remove star from repository', async ({adminClient, superuserApi}) => {
+  test('remove star from repository', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('star');
     const repo = await superuserApi.repository(org.name, 'star', 'public');
 
@@ -560,7 +560,7 @@ test.describe('Starred Repositories', {tag: ['@api', '@auth:Database']}, () => {
 // ---------------------------------------------------------------------------
 
 test.describe('Search', {tag: ['@api', '@auth:Database']}, () => {
-  test('search all registry context', async ({adminClient, superuserApi}) => {
+  test('search all registry context', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('search');
     const repo = await superuserApi.repository(
       org.name,
@@ -582,7 +582,7 @@ test.describe('Search', {tag: ['@api', '@auth:Database']}, () => {
     expect(found).toBe(true);
   });
 
-  test('search repositories', async ({adminClient, superuserApi}) => {
+  test('search repositories', {tag: '@superuser'}, async ({adminClient, superuserApi}) => {
     const org = await superuserApi.organization('search');
     const repo = await superuserApi.repository(
       org.name,

@@ -8,7 +8,7 @@ test.describe(
   'LDAP Team Sync',
   {tag: ['@organization', '@auth:LDAP', '@feature:TEAM_SYNCING']},
   () => {
-    test('team sync lifecycle: validate input, enable, verify config, disable', async ({
+    test('team sync lifecycle: validate input, enable, verify config, disable', {tag: '@superuser'}, async ({
       superuserPage: page,
       superuserApi: api,
     }) => {

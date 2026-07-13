@@ -167,7 +167,7 @@ test.describe('Create Organization', {tag: ['@organization']}, () => {
         ).toBeVisible();
       });
 
-      test("rejects email already used by another user's organization (OCP-74424)", async ({
+      test("rejects email already used by another user's organization (OCP-74424)", {tag: '@superuser'}, async ({
         authenticatedPage,
         superuserApi,
       }) => {

@@ -73,7 +73,7 @@ const test = base.extend<LogoutTestFixtures>({
 });
 
 test.describe('Logout functionality', {tag: ['@auth', '@critical']}, () => {
-  test('logs out successfully', async ({logoutPage}) => {
+  test('logs out successfully', {tag: '@superuser'}, async ({logoutPage}) => {
     // Navigate to organization page (where a logged-in user would be)
     await logoutPage.goto('/organization');
     await expect(logoutPage).toHaveURL(/\/organization/);
@@ -91,7 +91,7 @@ test.describe('Logout functionality', {tag: ['@auth', '@critical']}, () => {
     await expect(logoutPage).toHaveURL(/\/signin/);
   });
 
-  test('redirects to signin even when logout API fails', async ({
+  test('redirects to signin even when logout API fails', {tag: '@superuser'}, async ({
     logoutPage,
   }) => {
     // Mock API to return 500 error - this is an acceptable mock for error scenarios
@@ -121,7 +121,7 @@ test.describe('Logout functionality', {tag: ['@auth', '@critical']}, () => {
     await expect(logoutPage.getByText('Unable to log out')).not.toBeVisible();
   });
 
-  test('clears session and prevents access to protected pages', async ({
+  test('clears session and prevents access to protected pages', {tag: '@superuser'}, async ({
     logoutPage,
     logoutUsername,
   }) => {

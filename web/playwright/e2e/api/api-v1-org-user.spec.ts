@@ -475,7 +475,7 @@ test.describe(
   'Organization Member Details',
   {tag: ['@api', '@auth:Database']},
   () => {
-    test('admin can get individual org member info', async ({
+    test('admin can get individual org member info', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -574,7 +574,7 @@ test.describe(
   'OAuth Application Info',
   {tag: ['@api', '@auth:Database']},
   () => {
-    test('user can get OAuth application info by client_id', async ({
+    test('user can get OAuth application info by client_id', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {

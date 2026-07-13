@@ -15,7 +15,7 @@ test.describe(
       await webhook.stop();
     });
 
-    test('delivers webhook payload on repo_push test fire', async ({api}) => {
+    test('delivers webhook payload on repo_push test fire', {tag: '@webhook'}, async ({api}) => {
       const org = await api.organization('whdlv');
       const repo = await api.repository(org.name, 'pushwebhook');
 
@@ -51,7 +51,7 @@ test.describe(
       expect(received!.headers['content-type']).toBe('application/json');
     });
 
-    test('delivers webhook payload on vulnerability_found test fire', async ({
+    test('delivers webhook payload on vulnerability_found test fire', {tag: '@webhook'}, async ({
       api,
     }) => {
       const org = await api.organization('whdlv');
@@ -93,7 +93,7 @@ test.describe(
 
     test(
       'delivers webhook payload on repo_image_expiry test fire',
-      {tag: '@feature:IMAGE_EXPIRY_TRIGGER'},
+      {tag: ['@feature:IMAGE_EXPIRY_TRIGGER', '@webhook']},
       async ({api}) => {
         const org = await api.organization('whdlv');
         const repo = await api.repository(org.name, 'expirywebhook');

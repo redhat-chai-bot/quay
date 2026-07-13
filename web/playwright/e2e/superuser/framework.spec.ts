@@ -4,7 +4,7 @@ test.describe(
   'Superuser Framework',
   {tag: '@feature:SUPERUSERS_FULL_ACCESS'},
   () => {
-    test('superuser can navigate to all superuser pages', async ({
+    test('superuser can navigate to all superuser pages', {tag: '@superuser'}, async ({
       superuserPage,
     }) => {
       const pages = [
@@ -22,7 +22,7 @@ test.describe(
       }
     });
 
-    test('superuser sees navigation items and can expand section', async ({
+    test('superuser sees navigation items and can expand section', {tag: '@superuser'}, async ({
       superuserPage,
     }) => {
       await superuserPage.goto('/organization');
@@ -45,7 +45,7 @@ test.describe(
       await expect(superuserPage).toHaveURL(/.*\/service-keys.*/);
     });
 
-    test('superuser sees Settings column and organization actions menu', async ({
+    test('superuser sees Settings column and organization actions menu', {tag: '@superuser'}, async ({
       superuserPage,
       superuserApi,
     }) => {
@@ -78,7 +78,7 @@ test.describe(
       ).toBeVisible();
     });
 
-    test('regular user does not see superuser features', async ({
+    test('regular user does not see superuser features', {tag: '@superuser'}, async ({
       authenticatedPage,
       superuserApi,
     }) => {

@@ -62,7 +62,7 @@ async function waitForTags(
 // Service key approval
 // ---------------------------------------------------------------------------
 test.describe('Service Key Approve', {tag: ['@api', '@auth:Database']}, () => {
-  test('superuser can create and approve a service key', async ({
+  test('superuser can create and approve a service key', {tag: '@superuser'}, async ({
     superuserApi,
     adminClient,
   }) => {
@@ -81,7 +81,7 @@ test.describe('Service Key Approve', {tag: ['@api', '@auth:Database']}, () => {
 // Take ownership
 // ---------------------------------------------------------------------------
 test.describe('Take Ownership', {tag: ['@api', '@auth:Database']}, () => {
-  test('superuser can take ownership of an organization', async ({
+  test('superuser can take ownership of an organization', {tag: '@superuser'}, async ({
     superuserApi,
     adminClient,
   }) => {
@@ -102,7 +102,7 @@ test.describe('Take Ownership', {tag: ['@api', '@auth:Database']}, () => {
 // Create install user (server-generated password)
 // ---------------------------------------------------------------------------
 test.describe('Create Install User', {tag: ['@api', '@auth:Database']}, () => {
-  test('superuser can create a user via superuser API and get generated password', async ({
+  test('superuser can create a user via superuser API and get generated password', {tag: '@superuser'}, async ({
     superuserApi,
   }) => {
     const user = await superuserApi.user('install');
@@ -167,7 +167,7 @@ test.describe(
   'Tag Restore and Create',
   {tag: ['@api', '@auth:Database', '@container']},
   () => {
-    test('superuser can restore a tag to a previous manifest digest', async ({
+    test('superuser can restore a tag to a previous manifest digest', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -217,7 +217,7 @@ test.describe(
       expect(restoredTag.manifest_digest).toBe(firstDigest);
     });
 
-    test('superuser can create a new tag pointing to existing manifest', async ({
+    test('superuser can create a new tag pointing to existing manifest', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -262,7 +262,7 @@ test.describe(
 // Permission prototype full CRUD
 // ---------------------------------------------------------------------------
 test.describe('Prototypes Full CRUD', {tag: ['@api', '@auth:Database']}, () => {
-  test('superuser can create, list, update, and delete a permission prototype', async ({
+  test('superuser can create, list, update, and delete a permission prototype', {tag: '@superuser'}, async ({
     superuserApi,
     adminClient,
   }) => {
@@ -331,7 +331,7 @@ test.describe('Prototypes Full CRUD', {tag: ['@api', '@auth:Database']}, () => {
 // Export action logs (repo, org, user)
 // ---------------------------------------------------------------------------
 test.describe('Export Action Logs', {tag: ['@api', '@auth:Database']}, () => {
-  test('superuser can export repository logs', async ({
+  test('superuser can export repository logs', {tag: '@superuser'}, async ({
     superuserApi,
     adminClient,
   }) => {
@@ -346,7 +346,7 @@ test.describe('Export Action Logs', {tag: ['@api', '@auth:Database']}, () => {
     expect([200, 202]).toContain(resp.status());
   });
 
-  test('superuser can export organization logs', async ({
+  test('superuser can export organization logs', {tag: '@superuser'}, async ({
     superuserApi,
     adminClient,
   }) => {
@@ -386,7 +386,7 @@ test.describe(
   'Aggregate Logs Per Resource',
   {tag: ['@api', '@auth:Database']},
   () => {
-    test('superuser can read repository aggregate logs', async ({
+    test('superuser can read repository aggregate logs', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {
@@ -401,7 +401,7 @@ test.describe(
       expect(body.aggregated).toBeDefined();
     });
 
-    test('superuser can read organization aggregate logs', async ({
+    test('superuser can read organization aggregate logs', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {

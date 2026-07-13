@@ -273,7 +273,7 @@ test.describe(
       expect(deletedV1).toBeDefined();
     });
 
-    test('user namespace tag-count pruning removes excess tags', async ({
+    test('user namespace tag-count pruning removes excess tags', {tag: '@superuser'}, async ({
       freshUser,
     }) => {
       test.slow();
@@ -304,7 +304,7 @@ test.describe(
       }).toPass({timeout: 120_000, intervals: [5_000]});
     });
 
-    test('user namespace time-based pruning removes old tags', async ({
+    test('user namespace time-based pruning removes old tags', {tag: '@superuser'}, async ({
       freshUser,
     }) => {
       test.slow();
@@ -352,7 +352,7 @@ test.describe(
       }).toPass({timeout: 120_000, intervals: [5_000]});
     });
 
-    test('multiple user-namespace policies both take effect', async ({
+    test('multiple user-namespace policies both take effect', {tag: '@superuser'}, async ({
       freshUser,
     }) => {
       test.slow();

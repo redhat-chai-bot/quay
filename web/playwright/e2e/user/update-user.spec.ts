@@ -21,7 +21,7 @@ test.describe('UpdateUser Page', {tag: ['@user', '@auth']}, () => {
     'Profile metadata form',
     {tag: '@feature:USER_METADATA'},
     () => {
-      test('displays and submits profile form', async ({
+      test('displays and submits profile form', {tag: '@superuser'}, async ({
         browser,
         superuserRequest,
         quayConfig,
@@ -92,7 +92,7 @@ test.describe('UpdateUser Page', {tag: ['@user', '@auth']}, () => {
         }
       });
 
-      test('skips profile metadata with No thanks button', async ({
+      test('skips profile metadata with No thanks button', {tag: '@superuser'}, async ({
         browser,
         superuserRequest,
         quayConfig,

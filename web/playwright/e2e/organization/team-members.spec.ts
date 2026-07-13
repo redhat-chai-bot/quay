@@ -181,7 +181,7 @@ test.describe('Manage Team Members', {tag: ['@organization']}, () => {
     ).toContainText(`${org.name}+${newRobotName}`);
   });
 
-  test('pagination works with more than 20 members', async ({
+  test('pagination works with more than 20 members', {tag: '@superuser'}, async ({
     authenticatedPage,
     api,
     superuserApi,

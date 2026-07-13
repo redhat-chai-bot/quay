@@ -18,7 +18,7 @@ test.describe(
     // ========================================================================
 
     test.describe('Permissions', () => {
-      test('add write permission, update to admin, then remove', async ({
+      test('add write permission, update to admin, then remove', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -59,7 +59,7 @@ test.describe(
     // ========================================================================
 
     test.describe('Collaborators', () => {
-      test('list collaborators under organization', async ({
+      test('list collaborators under organization', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -91,7 +91,7 @@ test.describe(
     // ========================================================================
 
     test.describe('Teams', () => {
-      test('create team, add repo permission, add member', async ({
+      test('create team, add repo permission, add member', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -124,7 +124,7 @@ test.describe(
     // ========================================================================
 
     test.describe('Notifications', () => {
-      test('list notifications on empty repo returns 200', async ({
+      test('list notifications on empty repo returns 200', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -137,7 +137,7 @@ test.describe(
         expect(list.status()).toBe(200);
       });
 
-      test('create, test, reset, get by uuid, and delete notification', async ({
+      test('create, test, reset, get by uuid, and delete notification', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -206,7 +206,7 @@ test.describe(
     // ========================================================================
 
     test.describe('Robot Accounts', () => {
-      test('create, get, and list robot accounts under org', async ({
+      test('create, get, and list robot accounts under org', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -228,7 +228,7 @@ test.describe(
         expect(listBody.robots.length).toBeGreaterThanOrEqual(1);
       });
 
-      test('admin can regenerate an org robot token', async ({
+      test('admin can regenerate an org robot token', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -249,7 +249,7 @@ test.describe(
     // ========================================================================
 
     test.describe('Robot Federation', () => {
-      test('create with invalid issuer URL returns 400', async ({
+      test('create with invalid issuer URL returns 400', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -271,7 +271,7 @@ test.describe(
         expect(body.error_message).toContain('Issuer must be a URL');
       });
 
-      test('create, get, and delete federation with valid issuer URL', async ({
+      test('create, get, and delete federation with valid issuer URL', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -320,7 +320,7 @@ test.describe(
     // ========================================================================
 
     test.describe('Default Permissions (Prototypes)', () => {
-      test('create, list, update, and delete default permission for robot account', async ({
+      test('create, list, update, and delete default permission for robot account', {tag: '@superuser'}, async ({
         superuserApi,
         adminClient,
       }) => {
@@ -381,7 +381,7 @@ test.describe(
       'Repository State Changes',
       {tag: ['@feature:REPO_MIRROR']},
       () => {
-        test('transition repo through MIRROR, READ_ONLY, and NORMAL states', async ({
+        test('transition repo through MIRROR, READ_ONLY, and NORMAL states', {tag: '@superuser'}, async ({
           superuserApi,
           adminClient,
         }) => {
@@ -428,7 +428,7 @@ test.describe(
   'Team Email Invitations',
   {tag: ['@api', '@auth:Database', '@feature:MAILING']},
   () => {
-    test('admin can invite user to team by email and revoke the invitation', async ({
+    test('admin can invite user to team by email and revoke the invitation', {tag: '@superuser'}, async ({
       superuserApi,
       adminClient,
     }) => {

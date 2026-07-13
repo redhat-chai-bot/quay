@@ -127,7 +127,7 @@ test.describe('Signin error handling', {tag: ['@auth', '@signin']}, () => {
 
   test(
     'handles unverified email',
-    {tag: '@feature:MAILING'},
+    {tag: ['@feature:MAILING', '@superuser']},
     async ({browser, superuserApi}) => {
       // Create user but don't verify email
       const username = uniqueName('unverified');
@@ -390,7 +390,7 @@ test.describe(
   'Global Messages on Login Page',
   {tag: ['@auth', '@signin', '@feature:SUPERUSERS_FULL_ACCESS']},
   () => {
-    test('displays messages with different severities', async ({
+    test('displays messages with different severities', {tag: '@superuser'}, async ({
       unauthenticatedPage,
       superuserApi,
     }) => {
@@ -421,7 +421,7 @@ test.describe(
       ).toBeVisible();
     });
 
-    test('renders markdown content with links', async ({
+    test('renders markdown content with links', {tag: '@superuser'}, async ({
       unauthenticatedPage,
       superuserApi,
     }) => {
@@ -440,7 +440,7 @@ test.describe(
       await expect(link).toHaveAttribute('target', '_blank');
     });
 
-    test('displays multiple messages simultaneously', async ({
+    test('displays multiple messages simultaneously', {tag: '@superuser'}, async ({
       unauthenticatedPage,
       superuserApi,
     }) => {

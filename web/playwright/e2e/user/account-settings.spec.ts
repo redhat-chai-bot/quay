@@ -745,7 +745,7 @@ test.describe('Account Settings', {tag: ['@user']}, () => {
 });
 
 test.describe('User Self-Delete', {tag: ['@user', '@auth:Database']}, () => {
-  test('user can delete their own account via settings', async ({
+  test('user can delete their own account via settings', {tag: '@superuser'}, async ({
     browser,
     superuserRequest,
     quayConfig,
