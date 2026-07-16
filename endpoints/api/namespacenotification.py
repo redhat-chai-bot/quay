@@ -21,7 +21,7 @@ from endpoints.api import (
     show_if,
     validate_json_request,
 )
-from endpoints.exception import NotFound, Unauthorized
+from endpoints.exception import Conflict, NotFound, Unauthorized
 from notifications import build_namespace_notification_data
 from notifications.notificationevent import NotificationEvent
 from notifications.notificationmethod import (
@@ -158,6 +158,13 @@ class OrgNamespaceNotificationList(ApiResource):
             raise InvalidRequest(str(ex))
 
         _validate_create_request(parsed, orgname)
+
+        if model.notification.namespace_notification_exists(
+            org, parsed["event"], parsed["method"], parsed["config"]
+        ):
+            raise Conflict(
+                "A notification with the same event, method, and configuration already exists"
+            )
 
         new_notification = model.notification.create_namespace_notification(
             org,
@@ -312,6 +319,13 @@ class UserNamespaceNotificationList(ApiResource):
         user = get_authenticated_user()
         parsed = request.get_json()
         _validate_create_request(parsed, user.username)
+
+        if model.notification.namespace_notification_exists(
+            user, parsed["event"], parsed["method"], parsed["config"]
+        ):
+            raise Conflict(
+                "A notification with the same event, method, and configuration already exists"
+            )
 
         new_notification = model.notification.create_namespace_notification(
             user,

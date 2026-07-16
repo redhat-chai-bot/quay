@@ -84,6 +84,65 @@ class TestOrgNotificationList:
 
             model.notification.delete_namespace_notification("buynlarge", data["uuid"])
 
+    def test_create_duplicate_notification_rejected(self, app):
+        notif = _create_notification("buynlarge")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_warning",
+                "method": "email",
+                "config": {"email": "test@example.com"},
+                "eventConfig": {},
+            }
+            conduct_api_call(
+                cl, OrgNamespaceNotificationList, "POST", {"orgname": "buynlarge"}, body, 409
+            )
+        notif.delete_instance()
+
+    def test_create_different_event_allowed(self, app):
+        notif = _create_notification("buynlarge", event_name="quota_warning")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_error",
+                "method": "email",
+                "config": {"email": "test@example.com"},
+                "eventConfig": {},
+            }
+            resp = conduct_api_call(
+                cl, OrgNamespaceNotificationList, "POST", {"orgname": "buynlarge"}, body, 201
+            )
+            model.notification.delete_namespace_notification("buynlarge", resp.json["uuid"])
+        notif.delete_instance()
+
+    def test_create_different_method_allowed(self, app):
+        notif = _create_notification("buynlarge")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_warning",
+                "method": "webhook",
+                "config": {"url": "https://example.com/hook"},
+                "eventConfig": {},
+            }
+            resp = conduct_api_call(
+                cl, OrgNamespaceNotificationList, "POST", {"orgname": "buynlarge"}, body, 201
+            )
+            model.notification.delete_namespace_notification("buynlarge", resp.json["uuid"])
+        notif.delete_instance()
+
+    def test_create_different_config_allowed(self, app):
+        notif = _create_notification("buynlarge")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_warning",
+                "method": "email",
+                "config": {"email": "different@example.com"},
+                "eventConfig": {},
+            }
+            resp = conduct_api_call(
+                cl, OrgNamespaceNotificationList, "POST", {"orgname": "buynlarge"}, body, 201
+            )
+            model.notification.delete_namespace_notification("buynlarge", resp.json["uuid"])
+        notif.delete_instance()
+
     def test_create_invalid_event(self, app):
         with client_with_identity("devtable", app) as cl:
             body = {
@@ -222,6 +281,57 @@ class TestUserNotificationList:
             assert data["title"] == "User Quota Warning"
 
             model.notification.delete_namespace_notification("devtable", data["uuid"])
+
+    def test_create_duplicate_notification_rejected(self, app):
+        notif = _create_notification("devtable")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_warning",
+                "method": "email",
+                "config": {"email": "test@example.com"},
+                "eventConfig": {},
+            }
+            conduct_api_call(cl, UserNamespaceNotificationList, "POST", {}, body, 409)
+        notif.delete_instance()
+
+    def test_create_different_event_allowed(self, app):
+        notif = _create_notification("devtable", event_name="quota_warning")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_error",
+                "method": "email",
+                "config": {"email": "test@example.com"},
+                "eventConfig": {},
+            }
+            resp = conduct_api_call(cl, UserNamespaceNotificationList, "POST", {}, body, 201)
+            model.notification.delete_namespace_notification("devtable", resp.json["uuid"])
+        notif.delete_instance()
+
+    def test_create_different_method_allowed(self, app):
+        notif = _create_notification("devtable")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_warning",
+                "method": "webhook",
+                "config": {"url": "https://example.com/hook"},
+                "eventConfig": {},
+            }
+            resp = conduct_api_call(cl, UserNamespaceNotificationList, "POST", {}, body, 201)
+            model.notification.delete_namespace_notification("devtable", resp.json["uuid"])
+        notif.delete_instance()
+
+    def test_create_different_config_allowed(self, app):
+        notif = _create_notification("devtable")
+        with client_with_identity("devtable", app) as cl:
+            body = {
+                "event": "quota_warning",
+                "method": "email",
+                "config": {"email": "different@example.com"},
+                "eventConfig": {},
+            }
+            resp = conduct_api_call(cl, UserNamespaceNotificationList, "POST", {}, body, 201)
+            model.notification.delete_namespace_notification("devtable", resp.json["uuid"])
+        notif.delete_instance()
 
     def test_create_invalid_event(self, app):
         with client_with_identity("devtable", app) as cl:

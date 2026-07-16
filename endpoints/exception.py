@@ -19,6 +19,7 @@ class ApiErrorType(Enum):
     downstream_issue = "downstream_issue"
     tag_immutable = "tag_immutable"
     token_rotation_failed = "token_rotation_failed"
+    duplicate_notification = "duplicate_notification"
 
 
 ERROR_DESCRIPTION = {
@@ -34,6 +35,7 @@ ERROR_DESCRIPTION = {
     ApiErrorType.downstream_issue.value: "An error occurred in a downstream service.",
     ApiErrorType.tag_immutable.value: "The tag is immutable and cannot be modified or deleted.",
     ApiErrorType.token_rotation_failed.value: "Token rotation failed.",
+    ApiErrorType.duplicate_notification.value: "A notification with the same event, method, and configuration already exists.",
 }
 
 
@@ -151,6 +153,13 @@ class TokenRotationError(ApiException):
     def __init__(self, error_description, payload=None):
         ApiException.__init__(
             self, ApiErrorType.token_rotation_failed, 500, error_description, payload
+        )
+
+
+class Conflict(ApiException):
+    def __init__(self, error_description, payload=None):
+        ApiException.__init__(
+            self, ApiErrorType.duplicate_notification, 409, error_description, payload
         )
 
 

@@ -321,6 +321,30 @@ def delete_tag_notifications_for_tag(tag):
     return
 
 
+def namespace_notification_exists(namespace_user, event_name, method_name, method_config):
+    """
+    Check if a namespace notification already exists with the same event, method,
+    and configuration for the given namespace.
+    Returns True if a matching notification exists, False otherwise.
+    """
+    event = ExternalNotificationEvent.get(ExternalNotificationEvent.name == event_name)
+    method = ExternalNotificationMethod.get(ExternalNotificationMethod.name == method_name)
+
+    config_json = json.dumps(method_config)
+
+    notifications = NamespaceNotification.select().where(
+        NamespaceNotification.namespace == namespace_user,
+        NamespaceNotification.event == event,
+        NamespaceNotification.method == method,
+    )
+
+    for notification in notifications:
+        if notification.config_json == config_json:
+            return True
+
+    return False
+
+
 def create_namespace_notification(
     namespace_user, event_name, method_name, method_config, event_config, title=None
 ):
