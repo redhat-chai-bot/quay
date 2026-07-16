@@ -1339,5 +1339,82 @@ test.describe(
         expect([200, 404]).toContain(r.status());
       });
     });
+
+    // ========================================================================
+    // Section 23 -- Org namespace notifications
+    // ========================================================================
+
+    test.describe('Org namespace notifications', {tag: ['@feature:QUOTA_NOTIFICATIONS']}, () => {
+      let notificationUuid: string;
+
+      test.beforeAll(async ({adminClient}) => {
+        // Create org
+        await adminClient.post('/api/v1/organization/', {
+          name: orgName,
+          email: `${orgName}@example.com`,
+        });
+
+        // Create a namespace notification
+        const notifResp = await adminClient.post(
+          `/api/v1/organization/${orgName}/notifications`,
+          {
+            event: 'quota_warning',
+            method: 'email',
+            config: {email: 'test@example.com'},
+            eventConfig: {},
+            title: 'ro_test_ns_notification',
+          },
+        );
+        expect(notifResp.status()).toBe(201);
+        const notifBody = await notifResp.json();
+        notificationUuid = notifBody.uuid;
+      });
+
+      test.afterAll(async ({adminClient}) => {
+        if (notificationUuid) {
+          await adminClient.delete(
+            `/api/v1/organization/${orgName}/notifications/${notificationUuid}`,
+          );
+        }
+        await adminClient.delete(`/api/v1/organization/${orgName}`);
+      });
+
+      test('can GET organization namespace notifications list', async () => {
+        const r = await readonlyClient.get(
+          `/api/v1/organization/${orgName}/notifications`,
+        );
+        expect(r.status()).toBe(200);
+      });
+
+      test('can GET organization namespace notification by UUID', async () => {
+        test.skip(!notificationUuid, 'No notification UUID available');
+        const r = await readonlyClient.get(
+          `/api/v1/organization/${orgName}/notifications/${notificationUuid}`,
+        );
+        expect(r.status()).toBe(200);
+      });
+
+      test('cannot POST organization namespace notification', async () => {
+        const r = await readonlyClient.post(
+          `/api/v1/organization/${orgName}/notifications`,
+          {
+            event: 'quota_warning',
+            method: 'email',
+            config: {email: 'test@example.com'},
+            eventConfig: {},
+            title: 'should_fail',
+          },
+        );
+        expect(r.status()).toBe(403);
+      });
+
+      test('cannot DELETE organization namespace notification', async () => {
+        test.skip(!notificationUuid, 'No notification UUID available');
+        const r = await readonlyClient.delete(
+          `/api/v1/organization/${orgName}/notifications/${notificationUuid}`,
+        );
+        expect(r.status()).toBe(403);
+      });
+    });
   },
 );
