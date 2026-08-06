@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: quay
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: quay
+    spec:
+      envName: ${ENV_NAME}
+      deploymentRepo: https://github.com/quay/quay
+      title: Quay
+      image: ${IMAGE}:${IMAGE_TAG}
+      frontend:
+        paths:
+          - /quay
+      feoConfigEnabled: false
+      module:
+        manifestLocation: /apps/quay/fed-mods.json
+        modules:
+          - id: quay
+            module: ./QuayPluginMain
+            routes:
+              - pathname: /quay
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE
+    required: true
+  - name: IMAGE_TAG
+    required: true
